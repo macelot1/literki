@@ -30,6 +30,7 @@ button {
     border-radius: 5px;
     font-size: 16px;
     cursor: pointer;
+    font-family: 'Barrio', cursive;
 }
 
 button:hover {
