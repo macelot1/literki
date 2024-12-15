@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wyświetlanie obrazów</title>
+    <link href="https://fonts.googleapis.com/css2?family=Shadows+Into+Light&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Shadows Into Light', cursive;
+            background: linear-gradient(to right, #ffccff, #ff99cc);
+            text-align: center;
+            color: #333;
+        }
+        h1 {
+            color: #ff69b4;
+        }
+        form {
+            margin: 20px 0;
+        }
+        input[type="text"] {
+            padding: 10px;
+            border: 2px solid #ff69b4;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #ff69b4;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #ff1493;
+        }
+        label {
+            margin: 0 10px;
+            font-size: 18px;
+        }
+        .image-container {
+            margin-top: 20px;
+        }
+        .image-container img {
+            max-width: 100px;
+            margin: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Wprowadź 10-literowy tekst</h1>
+    <form id="textForm">
+        <input type="text" id="userInput" maxlength="10" required>
+        <button type="submit">Wyślij</button>
+    </form>
+    <div>
+        <label>
+            <input type="radio" name="style" value="SW" checked> Styl świąteczny
+        </label>
+        <label>
+            <input type="radio" name="style" value="WI"> Styl wiosenny
+        </label>
+    </div>
+    <div class="image-container" id="imagesContainer"></div>
+    <button id="downloadBtn">Pobierz obrazki</button>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script>
+        document.getElementById('textForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const userInput = document.getElementById('userInput').value.toUpperCase();
+            const selectedStyle = document.querySelector('input[name="style"]:checked').value;
+            const imagesContainer = document.getElementById('imagesContainer');
+            imagesContainer.innerHTML = '';
+
+            for (let i = 0; i < userInput.length; i++) {
+                const img = document.createElement('img');
+                img.src = 'obrazki/' + userInput[i] + '_' + selectedStyle + '.jpg';
+                img.alt = userInput[i];
+                imagesContainer.appendChild(img);
+            }
+        });
+
+        document.getElementById('downloadBtn').addEventListener('click', function() {
+            const { jsPDF } = window.jspdf;
+            const pdf = new jsPDF();
+
+            const userInput = document.getElementById('userInput').value.toUpperCase();
+            const selectedStyle = document.querySelector('input[name="style"]:checked').value;
+
+            const images = [];
+            let loadedImages = 0;
+
+            for (let i = 0; i < userInput.length; i++) {
+                const img = new Image();
+                img.src = 'obrazki/' + userInput[i] + '_' + selectedStyle + '.jpg';
+                img.onload = function() {
+                    images[i] = img;
+                    loadedImages++;
+                    console.log(`Loaded image: ${img.src}`);
+                    if (loadedImages === userInput.length) {
+                        createPDF();
+                    }
+                };
+                img.onerror = function() {
+                    console.error(`Failed to load image: ${img.src}`);
+                };
+            }
+
+            function createPDF() {
+                console.log('Creating PDF...');
+                for (let i = 0; i < images.length; i++) {
+                    if (i > 0) {
+                        pdf.addPage();
+                    }
+                    pdf.addImage(images[i], 'JPEG', 10, 10, 180, 180);
+                    console.log(`Added image to PDF: ${images[i].src}`);
+                }
+                pdf.save('obrazki.pdf');
+                console.log('PDF saved.');
+            }
+        });
+    </script>
+</body>
+</html>
