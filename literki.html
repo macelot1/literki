@@ -61,7 +61,9 @@
         </label>
     </div>
     <canvas id="canvas" width="1000" height="100"></canvas>
+    <button id="downloadBtn">Pobierz obrazki</button>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script>
         document.getElementById('textForm').addEventListener('submit', function(event) {
             event.preventDefault();
@@ -76,7 +78,7 @@
 
             for (let i = 0; i < userInput.length; i++) {
                 const img = new Image();
-                img.src = userInput[i] + '_' + selectedStyle + '.png';
+                img.src = 'obrazki/' + userInput[i] + '_' + selectedStyle + '.png';
                 img.onload = function() {
                     images[i] = img;
                     loadedImages++;
@@ -91,6 +93,39 @@
                 for (let i = 0; i < images.length; i++) {
                     ctx.drawImage(images[i], i * imgWidth, 0, imgWidth, canvas.height);
                 }
+            }
+        });
+
+        document.getElementById('downloadBtn').addEventListener('click', function() {
+            const { jsPDF } = window.jspdf;
+            const pdf = new jsPDF();
+
+            const userInput = document.getElementById('userInput').value.toUpperCase();
+            const selectedStyle = document.querySelector('input[name="style"]:checked').value;
+
+            const images = [];
+            let loadedImages = 0;
+
+            for (let i = 0; i < userInput.length; i++) {
+                const img = new Image();
+                img.src = 'obrazki/' + userInput[i] + '_' + selectedStyle + '.png';
+                img.onload = function() {
+                    images[i] = img;
+                    loadedImages++;
+                    if (loadedImages === userInput.length) {
+                        createPDF();
+                    }
+                };
+            }
+
+            function createPDF() {
+                for (let i = 0; i < images.length; i++) {
+                    if (i > 0) {
+                        pdf.addPage();
+                    }
+                    pdf.addImage(images[i], 'PNG', 10, 10, 180, 180);
+                }
+                pdf.save('obrazki.pdf');
             }
         });
     </script>
