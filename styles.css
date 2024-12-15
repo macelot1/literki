@@ -47,10 +47,15 @@ canvas {
 }
 
 .image-container {
-            margin-top: 20px;
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
 }
 
 .image-container img {
-            max-width: 100px;
-            margin: 5px;
+    max-width: 100px;
+    margin: 5px;
+    border: 2px solid #00796b;
+    border-radius: 5px;
 }
