@@ -1,5 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Barrio&display=swap');
+
 body {
-    font-family: 'Barrio', serif;
+    font-family: 'Barrio', cursive;
     background: linear-gradient(to right, #e0f7fa, #b2ebf2);
     text-align: center;
     color: #333;
