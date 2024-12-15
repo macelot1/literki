@@ -60,7 +60,7 @@
             <input type="radio" name="style" value="WI"> Styl wiosenny
         </label>
     </div>
-    <canvas id="canvas" width="1000" height="100"></canvas>
+    <canvas id="canvas"></canvas>
     <button id="downloadBtn">Pobierz obrazki</button>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -71,6 +71,12 @@
             const selectedStyle = document.querySelector('input[name="style"]:checked').value;
             const canvas = document.getElementById('canvas');
             const ctx = canvas.getContext('2d');
+            const imgHeight = 100; // Wysokość obrazka
+            const imgWidth = 100; // Szerokość obrazka
+
+            // Ustaw szerokość canvas proporcjonalnie do liczby liter
+            canvas.width = userInput.length * imgWidth;
+            canvas.height = imgHeight;
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
             const images = [];
@@ -92,9 +98,8 @@
             }
 
             function drawImages() {
-                const imgWidth = canvas.width / userInput.length;
                 for (let i = 0; i < images.length; i++) {
-                    ctx.drawImage(images[i], i * imgWidth, 0, imgWidth, canvas.height);
+                    ctx.drawImage(images[i], i * imgWidth, 0, imgWidth, imgHeight);
                 }
             }
         });
