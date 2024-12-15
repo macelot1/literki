@@ -1,0 +1,45 @@
+body {
+    font-family: 'Lora', serif;
+    background: linear-gradient(to right, #e0f7fa, #b2ebf2);
+    text-align: center;
+    color: #333;
+}
+
+h1 {
+    color: #00796b;
+}
+
+form {
+    margin: 20px 0;
+}
+
+input[type="text"] {
+    padding: 10px;
+    border: 2px solid #00796b;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #00796b;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #004d40;
+}
+
+label {
+    margin: 0 10px;
+    font-size: 18px;
+}
+
+canvas {
+    border: 2px solid #00796b;
+    margin-top: 20px;
+}
