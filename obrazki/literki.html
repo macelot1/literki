@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wyświetlanie obrazów</title>
+    <style>
+        img {
+            max-width: 300px;
+            margin: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Wprowadź tekst</h1>
+<h2><a href="literkiv2.html"> Wersja scalająca obrazek </a></h2>
+    <form id="textForm">
+        <input type="text" id="userInput" maxlength="10" required>
+        <button type="submit">Wyślij</button>
+    </form>
+    <div>
+        <label>
+            <input type="radio" name="style" value="SW" checked> Styl świąteczny
+        </label>
+        <label>
+            <input type="radio" name="style" value="WI"> Styl wiosenny
+        </label>
+    </div>
+    <div id="imagesContainer"></div>
+
+    <script>
+        document.getElementById('textForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const userInput = document.getElementById('userInput').value.toUpperCase();
+            const imagesContainer = document.getElementById('imagesContainer');
+            const selectedStyle = document.querySelector('input[name="style"]:checked').value;
+            imagesContainer.innerHTML = '';
+
+            for (let i = 0; i < userInput.length; i++) {
+                const img = document.createElement('img');
+                img.src = userInput[i] + '_' + selectedStyle + '.jpg';
+                img.alt = userInput[i];
+                imagesContainer.appendChild(img);
+            }
+        });
+    </script>
+</body>
+</html>
