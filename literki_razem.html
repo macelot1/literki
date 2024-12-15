@@ -86,6 +86,9 @@
                         drawImages();
                     }
                 };
+                img.onerror = function() {
+                    console.error(`Failed to load image: ${img.src}`);
+                };
             }
 
             function drawImages() {
@@ -116,6 +119,9 @@
                         createPDF();
                     }
                 };
+                img.onerror = function() {
+                    console.error(`Failed to load image: ${img.src}`);
+                };
             }
 
             function createPDF() {
@@ -123,7 +129,7 @@
                     if (i > 0) {
                         pdf.addPage();
                     }
-                    pdf.addImage(images[i], 'PNG', 10, 10, 180, 180);
+                    pdf.addImage(images[i], 'JPEG', 10, 10, 180, 180);
                 }
                 pdf.save('obrazki.pdf');
             }
@@ -131,3 +137,4 @@
     </script>
 </body>
 </html>
+Wprowadziłem 
